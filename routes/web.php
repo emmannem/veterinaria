@@ -13,5 +13,5 @@ Route::resource('mascotas', MascotaController::class);
 Route::resource('servicios', ServicioController::class);
 
 // Otras vistas
-Route::get('/servicios', [ServicioController::class, 'index'])->name('servicios.index');
+
 Route::view('/citas', 'citas.index')->name('citas.index');
