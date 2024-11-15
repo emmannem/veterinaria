@@ -18,15 +18,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form>
+                <form action="{{ route('mascotas.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
                     <!-- Campos del formulario para registrar una mascota -->
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre de la Mascota:</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre">
+                        <input type="text" class="form-control" id="nombre" name="nombre" required>
                     </div>
                     <div class="mb-3">
                         <label for="especie" class="form-label">Especie:</label>
-                        <input type="text" class="form-control" id="especie" name="especie">
+                        <input type="text" class="form-control" id="especie" name="especie" required>
                     </div>
                     <div class="mb-3">
                         <label for="raza" class="form-label">Raza:</label>
@@ -34,19 +35,19 @@
                     </div>
                     <div class="mb-3">
                         <label for="edad" class="form-label">Edad:</label>
-                        <input type="text" class="form-control" id="edad" name="edad">
+                        <input type="number" class="form-control" id="edad" name="edad">
                     </div>
                     <div class="mb-3">
                         <label for="peso" class="form-label">Peso:</label>
-                        <input type="text" class="form-control" id="peso" name="peso">
+                        <input type="number" step="0.1" class="form-control" id="peso" name="peso">
                     </div>
                     <div class="mb-3">
                         <label for="dueno" class="form-label">Dueño:</label>
-                        <input type="text" class="form-control" id="dueno" name="dueno">
+                        <input type="text" class="form-control" id="dueno" name="dueno" required>
                     </div>
                     <div class="mb-3">
                         <label for="contacto" class="form-label">Contacto:</label>
-                        <input type="text" class="form-control" id="contacto" name="contacto">
+                        <input type="text" class="form-control" id="contacto" name="contacto" required>
                     </div>
                     <div class="mb-3">
                         <label for="imagen" class="form-label">Imagen:</label>
@@ -59,57 +60,7 @@
     </div>
 </div>
 
-<!-- Modal de edición de mascota -->
-<div class="modal fade" id="editarMascotaModal" tabindex="-1" aria-labelledby="editarMascotaModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editarMascotaModalLabel">Editar mascota</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                <form id="editarMascotaForm">
-                    <!-- Campos del formulario para editar una mascota -->
-                    <div class="mb-3">
-                        <label for="editNombre" class="form-label">Nombre de la Mascota:</label>
-                        <input type="text" class="form-control" id="editNombre" name="nombre">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editEspecie" class="form-label">Especie:</label>
-                        <input type="text" class="form-control" id="editEspecie" name="especie">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editRaza" class="form-label">Raza:</label>
-                        <input type="text" class="form-control" id="editRaza" name="raza">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editEdad" class="form-label">Edad:</label>
-                        <input type="number" class="form-control" id="editEdad" name="edad">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editPeso" class="form-label">Peso:</label>
-                        <input type="number" step="0.1" class="form-control" id="editPeso" name="peso">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editDueno" class="form-label">Dueño:</label>
-                        <input type="text" class="form-control" id="editDueno" name="dueno">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editContacto" class="form-label">Contacto:</label>
-                        <input type="text" class="form-control" id="editContacto" name="contacto">
-                    </div>
-                    <div class="mb-3">
-                        <label for="editImagen" class="form-label">Imagen:</label>
-                        <input type="file" class="form-control" id="editImagen" name="imagen">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Tabla de ejemplo con datos ficticios -->
+<!-- Tabla de mascotas -->
 <table class="table table-bordered">
     <thead>
         <tr>
@@ -125,64 +76,119 @@
         </tr>
     </thead>
     <tbody>
-        <!-- Datos de ejemplo -->
+        @foreach ($mascotas as $mascota)
         <tr>
-            <td>Max</td>
-            <td>Perro</td>
-            <td>Labrador</td>
-            <td>3 años</td>
-            <td>25 kg</td>
-            <td>Juan Pérez</td>
-            <td>+1 234 567 890</td>
-            <td><img src="https://via.placeholder.com/100" alt="Imagen de Max" width="100"></td>
+            <td>{{ $mascota->nombre }}</td>
+            <td>{{ $mascota->especie }}</td>
+            <td>{{ $mascota->raza }}</td>
+            <td>{{ $mascota->edad }}</td>
+            <td>{{ $mascota->peso }}</td>
+            <td>{{ $mascota->dueno }}</td>
+            <td>{{ $mascota->contacto }}</td>
             <td>
-                <!-- Botones de Editar y Eliminar en la misma celda -->
-                <div class="btn-group" role="group" aria-label="Acciones">
-                    <button class="btn btn-warning btn-sm" onclick="abrirModalEditar('Max', 'Perro', 'Labrador', 3, 25, 'Juan Pérez', '+1 234 567 890')">
+                @if ($mascota->imagen)
+                <img src="{{ Storage::url($mascota->imagen) }}" alt="Imagen de {{ $mascota->nombre }}" width="100">
+                @else
+                <span>No hay imagen</span>
+                @endif
+            </td>
+            <td>
+                <!-- Botones de Editar y Eliminar -->
+                <div class="btn-group" role="group">
+                    <button class="btn btn-warning btn-sm" data-mascota="{{ json_encode($mascota) }}"
+                        onclick="abrirModalEditar(this)">
                         <i class="fas fa-edit"></i> Editar
                     </button>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarMascota(1)">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
+                    <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger btn-sm">
+                            <i class="fas fa-trash"></i> Eliminar
+                        </button>
+                    </form>
                 </div>
             </td>
         </tr>
-        <tr>
-            <td>Luna</td>
-            <td>Gato</td>
-            <td>Siames</td>
-            <td>2 años</td>
-            <td>5 kg</td>
-            <td>María López</td>
-            <td>+1 987 654 321</td>
-            <td><img src="https://via.placeholder.com/100" alt="Imagen de Luna" width="100"></td>
-            <td>
-                <!-- Botones de Editar y Eliminar en la misma celda -->
-                <div class="btn-group" role="group" aria-label="Acciones">
-                    <button class="btn btn-warning btn-sm" onclick="editarMascota(2)">
-                        <i class="fas fa-edit"></i> Editar
-                    </button>
-                    <button class="btn btn-danger btn-sm" onclick="eliminarMascota(2)">
-                        <i class="fas fa-trash"></i> Eliminar
-                    </button>
-                </div>
-            </td>
-        </tr>
+        @endforeach
     </tbody>
 </table>
 
-<script>
-    function abrirModalEditar(nombre, especie, raza, edad, peso, dueno, contacto) {
-        document.getElementById('editNombre').value = nombre;
-        document.getElementById('editEspecie').value = especie;
-        document.getElementById('editRaza').value = raza;
-        document.getElementById('editEdad').value = edad;
-        document.getElementById('editPeso').value = peso;
-        document.getElementById('editDueno').value = dueno;
-        document.getElementById('editContacto').value = contacto;
+<!-- Modal de edición de mascota -->
+<div class="modal fade" id="editarMascotaModal" tabindex="-1" aria-labelledby="editarMascotaModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarMascotaModalLabel">Editar mascota</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form id="editarMascotaForm" action="{{ route('mascotas.update', ['mascota' => 'ID_PLACEHOLDER']) }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    @method('PUT')
+                    <input type="hidden" id="editMascotaId" name="id">
+                    <!-- Campos del formulario para editar una mascota -->
+                    <div class="mb-3">
+                        <label for="editNombre" class="form-label">Nombre de la Mascota:</label>
+                        <input type="text" class="form-control" id="editNombre" name="nombre" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEspecie" class="form-label">Especie:</label>
+                        <input type="text" class="form-control" id="editEspecie" name="especie" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editRaza" class="form-label">Raza:</label>
+                        <input type="text" class="form-control" id="editRaza" name="raza">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editEdad" class="form-label">Edad:</label>
+                        <input type="number" class="form-control" id="editEdad" name="edad">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editPeso" class="form-label">Peso:</label>
+                        <input type="number" step="0.1" class="form-control" id="editPeso" name="peso">
+                    </div>
+                    <div class="mb-3">
+                        <label for="editDueno" class="form-label">Dueño:</label>
+                        <input type="text" class="form-control" id="editDueno" name="dueno" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editContacto" class="form-label">Contacto:</label>
+                        <input type="text" class="form-control" id="editContacto" name="contacto" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editImagen" class="form-label">Imagen:</label>
+                        <input type="file" class="form-control" id="editImagen" name="imagen">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Guardar cambios</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
-        var editarModal = new bootstrap.Modal(document.getElementById('editarMascotaModal'));
+<script>
+    function abrirModalEditar(button) {
+        // Obtener el JSON de la mascota desde el atributo data-mascota
+        const mascota = JSON.parse(button.getAttribute('data-mascota'));
+
+        // Asignar los valores a los campos del modal
+        document.getElementById('editNombre').value = mascota.nombre;
+        document.getElementById('editEspecie').value = mascota.especie;
+        document.getElementById('editRaza').value = mascota.raza;
+        document.getElementById('editEdad').value = mascota.edad;
+        document.getElementById('editPeso').value = mascota.peso;
+        document.getElementById('editDueno').value = mascota.dueno;
+        document.getElementById('editContacto').value = mascota.contacto;
+
+        // Asignar el ID de la mascota al campo oculto y actualizar la acción del formulario
+        document.getElementById('editMascotaId').value = mascota.id;
+        const formAction = document.getElementById('editarMascotaForm').action;
+        document.getElementById('editarMascotaForm').action = formAction.replace('ID_PLACEHOLDER', mascota.id);
+
+        // Mostrar el modal de edición
+        const editarModal = new bootstrap.Modal(document.getElementById('editarMascotaModal'));
         editarModal.show();
     }
 </script>
+
 @endsection
