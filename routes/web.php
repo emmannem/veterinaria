@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MascotaController;
 use App\Http\Controllers\ServicioController;
-use App\Models\Servicio;
+use App\Http\Controllers\CitaController;
 
 // Ruta para la página de inicio
 Route::get('/', [MascotaController::class, 'index'])->name('home');
@@ -11,7 +11,4 @@ Route::get('/', [MascotaController::class, 'index'])->name('home');
 // Rutas de recursos para 'mascotas' (CRUD)
 Route::resource('mascotas', MascotaController::class);
 Route::resource('servicios', ServicioController::class);
-
-// Otras vistas
-
-Route::view('/citas', 'citas.index')->name('citas.index');
+Route::resource('citas', CitaController::class);

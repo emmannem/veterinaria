@@ -64,7 +64,7 @@
                         onclick="abrirModalEditar(this)">
                         <i class="fas fa-edit"></i> Editar
                     </button>
-                    <form action="{{ route('servicios.destroy', $servicio->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('servicios.destroy', $servicio->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion()">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i>Eliminar</button>
@@ -75,6 +75,12 @@
         @endforeach
     </tbody>
 </table>
+
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que deseas eliminar esta cita?");
+    }
+</script>
 
 <!-- Modal de edición de servicio -->
 <div class="modal fade" id="editarServicioModal" tabindex="-1" aria-labelledby="editarServicioModalLabel" aria-hidden="true">
@@ -127,6 +133,11 @@
         // Actualizar la acción del formulario
         const form = document.getElementById('editarServicioForm');
         form.action = `/servicios/${servicio.id}`;
+
+        // Añadir confirmación al guardar
+        form.onsubmit = function() {
+            return confirm("¿Estás seguro de que deseas guardar estos cambios?");
+        };
 
         // Mostrar el modal
         const editarModal = new bootstrap.Modal(document.getElementById('editarServicioModal'));
