@@ -99,7 +99,7 @@
                         onclick="abrirModalEditar(this)">
                         <i class="fas fa-edit"></i> Editar
                     </button>
-                    <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;">
+                    <form action="{{ route('mascotas.destroy', $mascota->id) }}" method="POST" style="display:inline;" onsubmit="return confirmarEliminacion()">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">
@@ -112,6 +112,13 @@
         @endforeach
     </tbody>
 </table>
+
+<script>
+    function confirmarEliminacion() {
+        return confirm("¿Estás seguro de que deseas eliminar esta cita?");
+    }
+</script>
+
 
 <!-- Modal de edición de mascota -->
 <div class="modal fade" id="editarMascotaModal" tabindex="-1" aria-labelledby="editarMascotaModalLabel" aria-hidden="true">
@@ -171,6 +178,9 @@
         // Obtener el JSON de la mascota desde el atributo data-mascota
         const mascota = JSON.parse(button.getAttribute('data-mascota'));
 
+        // Asignar el ID de la mascota al campo oculto y actualizar la acción del formulario
+        document.getElementById('editMascotaId').value = mascota.id;
+
         // Asignar los valores a los campos del modal
         document.getElementById('editNombre').value = mascota.nombre;
         document.getElementById('editEspecie').value = mascota.especie;
@@ -180,10 +190,14 @@
         document.getElementById('editDueno').value = mascota.dueno;
         document.getElementById('editContacto').value = mascota.contacto;
 
-        // Asignar el ID de la mascota al campo oculto y actualizar la acción del formulario
-        document.getElementById('editMascotaId').value = mascota.id;
-        const formAction = document.getElementById('editarMascotaForm').action;
-        document.getElementById('editarMascotaForm').action = formAction.replace('ID_PLACEHOLDER', mascota.id);
+        // Configurar la acción del formulario
+        const form = document.getElementById('editarMascotaForm');
+        form.action = `/mascotas/${mascota.id}`;
+
+        // Añadir confirmación al guardar
+        form.onsubmit = function() {
+            return confirm("¿Estás seguro de que deseas guardar estos cambios?");
+        };
 
         // Mostrar el modal de edición
         const editarModal = new bootstrap.Modal(document.getElementById('editarMascotaModal'));
