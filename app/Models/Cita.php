@@ -11,6 +11,14 @@ class Cita extends Model
 
     protected $fillable = ['id_mascota', 'servicio_id', 'fecha', 'hora', 'estado'];
 
+    // función para filtrar los activos de los inactivos
+    protected static function booted()
+    {
+        static::addGlobalScope('activo', function ($query) {
+            $query->where('activo', true);
+        });
+    }
+
     // Relación con la tabla Mascotas
     public function mascota()
     {

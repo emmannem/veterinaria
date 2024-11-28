@@ -115,7 +115,7 @@
 
 <script>
     function confirmarEliminacion() {
-        return confirm("¿Estás seguro de que deseas eliminar esta cita?");
+        return confirm("¿Estás seguro de que deseas eliminar esta mascota?");
     }
 </script>
 

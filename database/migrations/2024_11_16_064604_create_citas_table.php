@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('fecha');
             $table->time('hora');
             $table->enum('estado', ['Pendiente', 'Realizado', 'Cancelado'])->default('Pendiente');
+            $table->boolean('activo')->default(true);
             $table->timestamps();
 
             // Llaves foráneas

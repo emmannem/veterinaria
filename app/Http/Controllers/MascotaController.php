@@ -97,16 +97,14 @@ class MascotaController extends Controller
     }
 
     /**
-     * Elimina una mascota de la base de datos.
+     * Elimina logicamente una mascota de la base de datos.
      */
-    public function destroy(Mascota $mascota)
+    public function destroy($id)
     {
-        if ($mascota->imagen) {
-            Storage::disk('public')->delete($mascota->imagen);
-        }
+        $mascota = Mascota::findOrFail($id);
+        $mascota->activo = false;
+        $mascota->save();
 
-        $mascota->delete();
-
-        return redirect()->route('mascotas.index')->with('success', 'Mascota eliminada exitosamente.');
+        return redirect()->route('mascotas.index');
     }
 }

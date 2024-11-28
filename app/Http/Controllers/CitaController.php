@@ -93,13 +93,14 @@ class CitaController extends Controller
     }
 
     /**
-     * Elimina una cita de la base de datos.
+     * Elimina logicamente una cita de la base de datos.
      */
     public function destroy($id)
     {
         $cita = Cita::findOrFail($id);
-        $cita->delete();
+        $cita->activo = false;
+        $cita->save();
 
-        return redirect()->route('citas.index')->with('success', 'Cita eliminada exitosamente.');
+        return redirect()->route('citas.index');
     }
 }

@@ -14,4 +14,12 @@ class Servicio extends Model
         'descripcion',
         'precio',
     ];
+
+    // función para filtrar los activos de los inactivos
+    protected static function booted()
+    {
+        static::addGlobalScope('activo', function ($query) {
+            $query->where('activo', true);
+        });
+    }
 }

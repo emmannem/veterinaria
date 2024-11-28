@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('dueno');
             $table->string('contacto');
             $table->string('imagen')->nullable(); // Para la imagen
+            $table->boolean('activo')->default(true);
             $table->timestamps();
         });
     }

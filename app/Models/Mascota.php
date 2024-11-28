@@ -14,4 +14,12 @@ class Mascota extends Model
 
     // Si necesitas definir los campos que se pueden asignar masivamente
     protected $fillable = ['nombre', 'especie', 'raza', 'edad', 'peso', 'dueno', 'contacto', 'imagen'];
+
+    // función para filtrar los activos de los inactivos
+    protected static function booted()
+    {
+        static::addGlobalScope('activo', function ($query) {
+            $query->where('activo', true);
+        });
+    }
 }

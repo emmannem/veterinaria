@@ -79,14 +79,15 @@ class ServicioController extends Controller
     }
 
     /**
-     * Elimina un servicio de la base de datos.
+     * Elimina logicamente un servicio de la base de datos.
      */
     public function destroy(Servicio $servicio)
     {
         // Eliminar el servicio
-        $servicio->delete();
+        $servicio->activo = false;
+        $servicio->save();
 
         // Redirigir a la lista de servicios con un mensaje de éxito
-        return redirect()->route('servicios.index')->with('success', 'Servicio eliminado exitosamente.');
+        return redirect()->route('servicios.index');
     }
 }
