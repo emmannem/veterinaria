@@ -25,8 +25,8 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link text-secondary" href="#">
-                        <i class="fas fa-envelope"></i> Contacto
+                    <a class="nav-link text-secondary" href="{{ route('historiales.index') }}">
+                        <i class="fas fa-envelope"></i> Historial Medico
                     </a>
                 </li>
             </ul>
