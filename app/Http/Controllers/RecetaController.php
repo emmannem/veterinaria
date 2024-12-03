@@ -53,7 +53,7 @@ class RecetaController extends Controller
     {
         $receta = Receta::with(['mascota'])->findOrFail($id);
 
-        return view('historiales.show', compact('historial'));
+        return view('recetas.show', compact('receta'));
     }
 
     /**
@@ -61,10 +61,10 @@ class RecetaController extends Controller
      */
     public function edit($id)
     {
-        $historial = Historial::findOrFail($id);
+        $recetas = Receta::findOrFail($id);
         $mascotas = Mascota::all();
 
-        return view('historiales.edit', compact('historial', 'mascotas'));
+        return view('recetas.edit', compact('historial', 'mascotas'));
     }
 
     /**
@@ -72,7 +72,7 @@ class RecetaController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $historial = Historial::findOrFail($id);
+        $receta = Receta::findOrFail($id);
 
         $request->validate([
             'id_mascota' => 'required|exists:mascotas,id',
@@ -81,9 +81,9 @@ class RecetaController extends Controller
             'medicamentos' => 'required|string|max:255',
         ]);
 
-        $historial->update($request->all());
+        $receta->update($request->all());
 
-        return redirect()->route('historiales.index')->with('success', 'Historial actualizado exitosamente.');
+        return redirect()->route('recetas.index')->with('success', 'Historial actualizado exitosamente.');
     }
 
     /**
@@ -91,10 +91,10 @@ class RecetaController extends Controller
      */
     public function destroy($id)
     {
-        $historial = Historial::findOrFail($id);
-        $historial->activo = false;
-        $historial->save();
+        $receta = Receta::findOrFail($id);
+        $receta->activo = false;
+        $receta->save();
 
-        return redirect()->route('historiales.index');
+        return redirect()->route('recetas.index');
     }
 }

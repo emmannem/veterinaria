@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MascotaController;
 use App\Http\Controllers\ServicioController;
 use App\Http\Controllers\CitaController;
-use App\Http\Controllers\HistorialController;
+use App\Http\Controllers\RecetaController;
 
 // Ruta para la página de inicio
 Route::get('/', [MascotaController::class, 'index'])->name('home');
@@ -13,4 +13,4 @@ Route::get('/', [MascotaController::class, 'index'])->name('home');
 Route::resource('mascotas', MascotaController::class);
 Route::resource('servicios', ServicioController::class);
 Route::resource('citas', CitaController::class);
-Route::resource('historiales', HistorialController::class);
+Route::resource('recetas', RecetaController::class);

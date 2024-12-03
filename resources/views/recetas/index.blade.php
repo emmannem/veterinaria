@@ -18,7 +18,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('historiales.store') }}" method="POST">
+                <form action="{{ route('recetas.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="id_mascota" class="form-label">Mascota:</label>
@@ -61,23 +61,23 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($historiales as $historial)
+        @foreach ($recetas as $receta)
         <tr>
-            <td>{{ $historial->mascota->nombre }}</td>
-            <td>{{ $historial->diagnostico }}</td>
-            <td>{{ $historial->tratamiento }}</td>
-            <td>{{ $historial->medicametos }}</td>
+            <td>{{ $receta->mascota->nombre }}</td>
+            <td>{{ $receta->diagnostico }}</td>
+            <td>{{ $receta->tratamiento }}</td>
+            <td>{{ $receta->medicamentos }}</td>
             <td>
                 <div class="btn-group" role="group" aria-label="Acciones">
                     <!-- Botón para abrir modal de edición -->
                     <button class="btn btn-warning btn-sm"
-                        data-historial="{{ json_encode($historial)}}"
+                        data-receta="{{ json_encode($receta)}}"
                         onclick="abrirModalEditar(this)">
                         <i class="fas fa-edit"></i> Editar
                     </button>
 
                     <!-- Formulario para eliminar -->
-                    <form action="{{ route('historiales.destroy', $historial->id) }}" method="POST" style="display: inline;" onsubmit="return confirmarEliminacion()">
+                    <form action="{{ route('recetas.destroy', $receta->id) }}" method="POST" style="display: inline;" onsubmit="return confirmarEliminacion()">
                         @csrf
                         @method('DELETE')
                         <button type="submit" class="btn btn-danger btn-sm">
@@ -100,20 +100,20 @@
 
 
 <!-- Modal de edición de cita -->
-<div class="modal fade" id="editarHistorialModal" tabindex="-1" aria-labelledby="editarHistorialModalLabel" aria-hidden="true">
+<div class="modal fade" id="editarRecetaModal" tabindex="-1" aria-labelledby="editarRecetaModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="editarHistorialModalLabel">Editar Historial</h5>
+                <h5 class="modal-title" id="editarRecetaModalLabel">Editar Historial</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form id="editarHistorialForm" method="POST">
+                <form id="editarRecetaForm" method="POST">
                     @csrf
                     @method('PUT') <!-- Esto añade el método PUT -->
 
                     <!-- ID oculto para identificar el historial -->
-                    <input type="hidden" id="editHistorialId" name="id">
+                    <input type="hidden" id="editRecetaId" name="id">
 
                     <!-- Otros campos -->
                     <div class="mb-3">
@@ -148,23 +148,23 @@
 
 <script>
     function abrirModalEditar(button) {
-        const historial = JSON.parse(button.getAttribute('data-historial'));
+        const receta = JSON.parse(button.getAttribute('data-receta'));
 
         // Asignar el ID oculto
-        document.getElementById('editHistorialId').value = Historial.id;
+        document.getElementById('editRecetaId').value = receta.id;
 
         // Seleccionar la mascota actual
         const mascotaSelect = document.getElementById('editMascota');
-        mascotaSelect.value = cita.id_mascota;
+        mascotaSelect.value = receta.id_mascota;
 
         // Asignar otros valores
-        document.getElementById('editDiagnostico').value = historial.diagnostico;
-        document.getElementById('editTratamiento').value = historial.tratamiento;
-        document.getElementById('editMedicamentos').value = historial.medicamentos;
+        document.getElementById('editDiagnostico').value = receta.diagnostico;
+        document.getElementById('editTratamiento').value = receta.tratamiento;
+        document.getElementById('editMedicamentos').value = receta.medicamentos;
 
         // Configurar la acción del formulario
-        const form = document.getElementById('editarHistorialForm');
-        form.action = `/historiales/${historial.id}`;
+        const form = document.getElementById('editarRecetaForm');
+        form.action = `/recetas/${receta.id}`;
 
         // Añadir confirmación al guardar
         form.onsubmit = function() {
@@ -172,7 +172,7 @@
         };
 
         // Mostrar el modal
-        const editarModal = new bootstrap.Modal(document.getElementById('editarHistorialModal'));
+        const editarModal = new bootstrap.Modal(document.getElementById('editarRecetaModal'));
         editarModal.show();
     }
 </script>
